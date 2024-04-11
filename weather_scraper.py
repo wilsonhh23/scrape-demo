@@ -5,7 +5,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup
-import time
 
 # Function to convert temperature from Celsius to Fahrenheit
 def celsius_to_fahrenheit(celsius_temp):
@@ -51,13 +50,9 @@ def fetch_weather(city):
         condition = details_cell.find('b').find_next_sibling('b').text.strip() if details_cell.find('b') else 'Condition not found'
         temperature_celsius = details_cell.find('span', class_='badge').text.strip()[:-2]  # Remove '°С'
         temperature_fahrenheit = celsius_to_fahrenheit(float(temperature_celsius))
-        
-        # Extract the temperature range from the details
-        temp_details = details_cell.find('p').text.strip()
-        temp_range = temp_details.split(", ")[1]
 
         # Print the formatted weather information
-        print(f"{city_name}: {temperature_celsius}°С ({temperature_fahrenheit:.1f}°F), {condition}, {temp_range}")
+        print(f"{city_name}: {temperature_celsius}°С ({temperature_fahrenheit:.1f}°F), {condition}")
 
 # Entry point of the script
 def main():
