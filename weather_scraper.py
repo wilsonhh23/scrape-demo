@@ -1,10 +1,10 @@
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.chrome.options import Options
-from bs4 import BeautifulSoup
+from selenium import webdriver  # Provides the WebDriver API for controlling browsers
+from selenium.webdriver.chrome.service import Service  # Helps manage the ChromeDriver service
+from selenium.webdriver.common.by import By  # For locating elements by their attributes
+from selenium.webdriver.support.ui import WebDriverWait  # Allows waiting for certain conditions
+from selenium.webdriver.support import expected_conditions as EC  # Provides conditions for WebDriverWait
+from selenium.webdriver.chrome.options import Options  # For setting options on ChromeDriver
+from bs4 import BeautifulSoup  # For parsing HTML and navigating the parse tree
 
 # Function to convert temperature from Celsius to Fahrenheit
 def celsius_to_fahrenheit(celsius_temp):
