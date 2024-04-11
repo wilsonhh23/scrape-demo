@@ -8,12 +8,10 @@ from bs4 import BeautifulSoup  # For parsing HTML and navigating the parse tree
 
 # Function to convert temperature from Celsius to Fahrenheit
 def celsius_to_fahrenheit(celsius_temp):
-    """Convert Celsius to Fahrenheit."""
     return (celsius_temp * 9/5) + 32
 
 # Function to fetch and display weather data for a specified city using Selenium
 def fetch_weather(city):
-    """Fetch and display weather data for a specified city using Selenium in headless mode."""
     # Specify the path to your ChromeDriver
     driver_path = '/Users/wilsonhaynie/Downloads/chromedriver-mac-x64/chromedriver'
     # Initialize the WebDriver service
@@ -43,16 +41,27 @@ def fetch_weather(city):
     weather_rows = soup.find('table', class_='table').find('tbody').find_all('tr')
     
     # Iterate through each row to extract and print the weather details
-    for row in weather_rows:
-        # Extract the city name, weather condition, and temperature details
-        details_cell = row.find_all('td')[1]
-        city_name = details_cell.find('a').text.strip()
-        condition = details_cell.find('b').find_next_sibling('b').text.strip() if details_cell.find('b') else 'Condition not found'
-        temperature_celsius = details_cell.find('span', class_='badge').text.strip()[:-2]  # Remove '°С'
-        temperature_fahrenheit = celsius_to_fahrenheit(float(temperature_celsius))
+    # Each 'tr' (table row) element contains data for one weather entry
+for row in weather_rows:
+    # The weather data is divided into 'td' (table data) elements. 
+    # Here, we're interested in the second 'td' which contains the main details.
+    details_cell = row.find_all('td')[1]
+    
+    # Extract the city name, which is contained within an 'a' (anchor) element.
+    city_name = details_cell.find('a').text.strip()
+    
+    # The condition (e.g., "scattered clouds") is located next to a 'b' element.
+    # If the 'b' element exists, find the next sibling 'b' element and get its text.
+    # If not found, default to 'Condition not found'.
+    condition = details_cell.find('b').find_next_sibling('b').text.strip() if details_cell.find('b') else 'Condition not found'
+    
+    # The temperature is displayed inside a 'span' with class 'badge' and includes '°С'.
+    # Extract the text, remove the '°С' suffix, and convert it to a float.
+    temperature_celsius = details_cell.find('span', class_='badge').text.strip()[:-2]  # Remove '°С'
+    
+    # Convert the temperature from Celsius to Fahrenheit using a helper function.
+    temperature_fahrenheit = celsius_to_fahrenheit(float(temperature_celsius))
 
-        # Print the formatted weather information
-        print(f"{city_name}: {temperature_celsius}°С ({temperature_fahrenheit:.1f}°F), {condition}")
 
 # Entry point of the script
 def main():
