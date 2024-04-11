@@ -1,6 +1,8 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup
 import time
@@ -28,7 +30,9 @@ def fetch_weather(city):
     driver.get(url)
 
     # Wait for the dynamic content to load
-    time.sleep(3)
+    WebDriverWait(driver, 10).until(
+    EC.presence_of_element_located((By.CSS_SELECTOR, "table.table tbody"))
+    )
 
     # Retrieve the page source and quit the driver
     page_source = driver.page_source
